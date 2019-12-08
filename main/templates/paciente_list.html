@@ -1,16 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <h1>Paciente</h1>
-    <a href="{% url 'paciente_new' %}"><buttton class="btn btn-primary my-4">Agregar +</button></a>
+    <h1>Paciente </h1>
+    <h3 class="text-primary">
     
+    </h3>
+    <h4>Listado de historia clínica de pacientes ordenados según mayor prioridad</h4>
     <ul class="list-group">
         {% for element in object_list %}
         <li class="list-group-item">
-            <b><p><a href="{% url 'paciente_detail' element.pk %}">{{ element.nombre }}</a></p></b>
+            <b><p><a href="{% url 'paciente_detail' element.pk %}">{{ element.n_hist_clinica }}</a></p></b>
         </li>
     {% endfor %}
-    
+   
 </ul>
 
 

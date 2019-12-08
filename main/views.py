@@ -1,42 +1,25 @@
 from django.shortcuts import render
+from main import models
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .forms import PacienteForm
+from .forms import  PancianoForm, PjovenForm, PninoForm
 from django.urls import reverse_lazy
 from .models import Hospital, Consulta, Paciente, Panciano, Pjoven, Pnino
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 
-
-
 # CONSULTA
-
 class ConsultaListView(ListView):
     model = Consulta
     template_name = 'consulta_list.html'
-    context_object_name = 'consulta'
-    
-    def get_context_data(self, **kwargs):
-        context = super(ConsultaListView, self).get_context_data(**kwargs)
-        context['consulta'] = Consulta.objects.all()
-        
-        return context
 
+    def get_queryset(self):
+        consulta = models.Consulta.objects.all()
+        return consulta.all()
+    
 class ConsultaDetailView(DetailView):
     model = Consulta
     template_name = 'consulta_detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(ConsultaDetailView, self).get_context_data(**kwargs)
-        #clientPk = self.kwargs['pk']
-        context['consulta'] = Consulta.objects.all()
-        context['hospital'] = Hospital.objects.all()
-        context['paciente'] = Paciente.objects.all()
-        context['panciano'] = Panciano.objects.all()
-        context['pnino'] = Pnino.objects.all()
-        context['pjoven'] = Pjoven.objects.all()
-        
-        return context
 
 class ConsultaCreateView(CreateView):
     model = Consulta
@@ -51,39 +34,83 @@ class ConsultaCreateView(CreateView):
 
         return super().form_valid(form)
 
-# PACIENTE
+
+#PACIENTE
 
 class PacienteListView(ListView):
     model = Paciente
     template_name = 'paciente_list.html'
     context_object_name = 'paciente'
-
-    def get_context_data(self, **kwargs):
-        context = super(PacienteListView, self).get_context_data(**kwargs)
-        context['paciente'] = Paciente.objects.all()
-        context['hospital'] = Hospital.objects.all()
-        context['consulta'] = Consulta.objects.all()
-        context['panciano'] = Panciano.objects.all()
-        context['pnino'] = Pnino.objects.all()
-        context['pjoven'] = Pjoven.objects.all()
-        
-        return context
+    
+    def get_queryset(self):
+        pacientes = models.Paciente.objects.all()
+        return pacientes.order_by("-prioridad")
 
 class PacienteDetailView(DetailView):
     model = Paciente
     template_name = 'paciente_detail.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(PacienteDetailView, self).get_context_data(**kwargs)
-        #clientPk = self.kwargs['pk']
-        context['paciente'] = Paciente.objects.all()
-        
-        return context
 
-class PacienteCreateView(CreateView):
-    model = Paciente
-    template_name = 'paciente_new.html'
-    fields = ('nombre', 'edad', 'n_hist_clinica', 'hospitales',)
+# PNINO
+class PninoListView(ListView):
+    model = Pnino
+    template_name = 'pnino_list.html'
+    context_object_name = 'pnino'
+
+class PninoDetailView(DetailView):
+    model = Pnino
+    template_name = 'pnino_detail.html'
+
+class PninoCreateView(CreateView):
+    model = Pnino
+    template_name = 'pnino_new.html'
+    fields = ('prioridad','nombre', 'edad', 'n_hist_clinica', 'hospitales', 'rel_peso_estatura',)
+    
+    def form_valid(self, form):
+        if form.is_valid:
+            messages.success(self.request, 'OK!')
+        else:
+            messages.error(self.request, "Error!")
+
+        return super().form_valid(form)
+
+# PJOVEN
+class PjovenListView(ListView):
+    model = Pjoven
+    template_name = 'pjoven_list.html'
+    context_object_name = 'pjoven'
+
+class PjovenDetailView(DetailView):
+    model = Pjoven
+    template_name = 'pjoven_detail.html'
+
+class PjovenCreateView(CreateView):
+    model = Pjoven
+    template_name = 'pjoven_new.html'
+    fields = ('prioridad','nombre', 'edad', 'n_hist_clinica', 'hospitales', 'fumador',)
+    
+    def form_valid(self, form):
+        if form.is_valid:
+            messages.success(self.request, 'OK!')
+        else:
+            messages.error(self.request, "Error!")
+
+        return super().form_valid(form)
+
+# PANCIANO
+class PancianoListView(ListView):
+    model = Panciano
+    template_name = 'panciano_list.html'
+    context_object_name = 'panciano'
+
+class PancianoDetailView(DetailView):
+    model = Panciano
+    template_name = 'panciano_detail.html'
+
+class PancianoCreateView(CreateView):
+    model = Panciano
+    template_name = 'panciano_new.html'
+    fields = ('prioridad','nombre', 'edad', 'n_hist_clinica', 'hospitales', 'tiene_dieta',)
     
     def form_valid(self, form):
         if form.is_valid:
@@ -100,34 +127,9 @@ class HospitalListView(ListView):
     context_object_name = 'hospital'
     queryset = Hospital.objects.all()
 
-    def get_context_data(self, **kwargs):
-        context = super(HospitalListView, self).get_context_data(**kwargs)
-        context['hospital'] = Hospital.objects.all()
-        context['consulta'] = Consulta.objects.all()
-        context['paciente'] = Paciente.objects.all()
-        context['panciano'] = Panciano.objects.all()
-        context['pnino'] = Pnino.objects.all()
-        context['pjoven'] = Pjoven.objects.all()
-        
-        return context
-
 class HospitalDetailView(DetailView):
     model = Hospital
     template_name = 'hospital_detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(HospitalDetailView, self).get_context_data(**kwargs)
-        #clientPk = self.kwargs['pk']
-        context['consulta'] = Consulta.objects.all()
-        context['paciente'] = Paciente.objects.all()
-        context['panciano'] = Panciano.objects.all()
-        context['pnino'] = Pnino.objects.all()
-        context['pjoven'] = Pjoven.objects.all()
-        
-        return context
-
-
-
 
 class HospitalCreateView(CreateView):
     model = Hospital

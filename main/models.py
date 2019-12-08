@@ -46,6 +46,7 @@ class Consulta(models.Model):
         return reverse('consulta_detail', args=[str(self.id)])
 
 class Paciente(models.Model):
+    prioridad = models.PositiveIntegerField()
     nombre = models.CharField(max_length=60)
     edad = models.PositiveIntegerField()
     n_hist_clinica = models.PositiveIntegerField("N° historia clínica")
@@ -64,7 +65,7 @@ class Paciente(models.Model):
         return reverse('paciente_detail', args=[str(self.id)])
 
 class Panciano(Paciente):
-    tiene_dieta = models.BooleanField(default=False, help_text='Tiene dieta')
+    tiene_dieta = models.BooleanField(default=False)
 
     class Meta:
        
@@ -73,10 +74,13 @@ class Panciano(Paciente):
         ordering = ('pk',)
 
     def __str__(self):
-        return self.tiene_dieta
+        return self.nombre
+
+    def get_absolute_url(self):
+        return reverse('panciano_detail', args=[str(self.id)])
 
 class Pnino(Paciente):
-    rel_peso_estatura = models.PositiveIntegerField(help_text="Relación peso/estatura")
+    rel_peso_estatura = models.PositiveIntegerField()
 
     class Meta:
        
@@ -85,10 +89,13 @@ class Pnino(Paciente):
         ordering = ('pk',)
 
     def __str__(self):
-        return self.rel_peso_estatura
+        return self.nombre
+
+    def get_absolute_url(self):
+        return reverse('pnino_detail', args=[str(self.id)])
 
 class Pjoven(Paciente):
-    fumador = models.BooleanField(default=False, help_text='fumador')
+    fumador = models.BooleanField(default=False)
 
     class Meta:
        
@@ -97,5 +104,7 @@ class Pjoven(Paciente):
         ordering = ('pk',)
 
     def __str__(self):
-        return self.fumador
+        return self.nombre
 
+    def get_absolute_url(self):
+        return reverse('pjoven_detail', args=[str(self.id)])
