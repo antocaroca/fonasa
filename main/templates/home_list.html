@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1>Hospital</h1>
+    <a href="{% url 'hospital_new' %}"><buttton class="btn btn-primary my-4">Agregar +</button></a>
+    
+    <ul class="list-group">
+        {% for element in object_list %}
+        <li class="list-group-item">
+            <b><p><a href="{% url 'hospital_detail' element.pk %}">{{ element.nombre }}</a></p></b>
+        </li>
+    {% endfor %}
+    
+</ul>
+
+
+{% endblock content %}

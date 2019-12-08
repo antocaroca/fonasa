@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1>Consulta</h1>
+    <a href="{% url 'consulta_new' %}"><buttton class="btn btn-primary my-4">Agregar +</button></a>
+    
+    <ul class="list-group">
+        {% for element in object_list %}
+        <li class="list-group-item">
+            <b><p>ID consulta:<a href="{% url 'consulta_detail' element.pk %}">{{ element.id_consulta }}</a></p></b>
+        </li>
+    {% endfor %}
+   
+</ul>
+
+
+{% endblock content %}

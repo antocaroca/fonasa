@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="d-flex justify-content-center" style="width:350px;">
+        {% for message in messages %}
+        <div class="alert alert-success {{ message.tags }} alert-dismissible fade show" role="alert" id="success-alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>{{ message }} </strong>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<!--JS alerta mensajes-->
+<script>
+$(".alert-dismissible").fadeTo(2000, 500).slideUp(500, function(){
+    $(".alert-dismissible").alert('close');
+});
+</script>

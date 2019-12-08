@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Detalle paciente</h2> 
+
+
+<ul class="list-group">
+    <li class="list-group-item"><b>Nombre:</b>{{ object.nombre }}</li>
+    <li class="list-group-item"><b>Edad:</b>{{ object.edad }}</li>
+    <li class="list-group-item"><b>N° hisoria clínica:</b>{{ object.n_hist_clinica }}</li>
+    <li class="list-group-item"><b>Hospital:</b>{{ object.hospitales }}</li>
+</ul>
+
+{%  endblock content%}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Detalle Consulta</h2>
+
+<ul  class="list-group">
+    <li class="list-group-item"><b>id consulta: </b>{{ object.id_consulta }}</li>
+    <li class="list-group-item"><b>cantidad pacientes: </b>{{ object.cantidad_pacientes }}</li>
+    <li class="list-group-item"><b>nombre especialista: </b>{{ object.nombre_especialista }}</li>
+    <li class="list-group-item"><b>tipo de consulta: </b>{{ object.tipo_consulta }}</li>
+    <li class="list-group-item"><b>estado: </b>{{ object.estado }}</li>
+    <li class="list-group-item"><b>hospital: </b>{{ object.hospitales }}</li>
+</ul>
+
+
+
+{%  endblock content%}
